@@ -92,6 +92,16 @@ export const recommendations: Recommendation[] = [
     relationship: 'used-by-us',
   },
   {
+    title: 'mise',
+    url: 'https://mise.jdx.dev/',
+    category: 'software',
+    summary: 'Dev tools, environment variables, task runner, and package management in one CLI.',
+    why: 'The definitive polyglot environment manager — replaces asdf, direnv, make, and package version managers with a single fast binary.',
+    topics: ['developer-tools', 'open-source'],
+    reviewedAt: '2026-07-24',
+    relationship: 'used-by-us',
+  },
+  {
     title: 'Example: a build tool we reach for',
     url: 'https://example.com/build-tool',
     category: 'software',
