@@ -82,6 +82,16 @@ export const recommendations: Recommendation[] = [
     relationship: 'used-by-us',
   },
   {
+    title: 'Herdr',
+    url: 'https://github.com/apphane-dev/herdr',
+    category: 'software',
+    summary: 'Terminal multiplexer and workspace orchestration tool.',
+    why: 'Excellent for managing parallel agents, workspace panes, and long-running CLI tasks with full session control.',
+    topics: ['developer-tools'],
+    reviewedAt: '2026-07-24',
+    relationship: 'used-by-us',
+  },
+  {
     title: 'Example: a build tool we reach for',
     url: 'https://example.com/build-tool',
     category: 'software',
