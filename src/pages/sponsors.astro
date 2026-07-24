@@ -2,13 +2,7 @@
 import Base from '../layouts/Base.astro';
 import SiteHeader from '../components/site/SiteHeader.astro';
 import SiteFooter from '../components/site/SiteFooter.astro';
-import {
-  tiers,
-  tierAmount,
-  visibleSponsors,
-  showSeedNote,
-  sponsorLink,
-} from '../data/sponsors';
+import { visibleSponsors, showSeedNote, sponsorLink } from '../data/sponsors';
 
 const funds = [
   'Time — the scarce input. Sponsorship buys hours to maintain and document, not just to build.',
@@ -44,35 +38,7 @@ const funds = [
       </ul>
     </section>
 
-    <section class="block" aria-labelledby="tiers-head">
-      <h2 class="eyebrow" id="tiers-head">Ways to help<span class="tr" lang="tr" aria-hidden="true">yardım</span></h2>
-      <p class="tiers-note">
-        Figures are indicative — set any amount on GitHub. Higher tiers get more prominent thanks:
-        beyond this page, sponsors are named in the READMEs of the apphane projects and, at the top
-        tier, on the apps' own about screens. It is a thank-you and a disclosure, never a say in what
-        the house builds, writes, or recommends.
-      </p>
-      <div class="tiers">
-        {
-          tiers.map((tier) => (
-            <article class="tier">
-              <div class="tier-top">
-                <h3>{tier.label}</h3>
-                <span class="tier-amount">{tierAmount(tier)}</span>
-              </div>
-              <p class="tier-blurb">{tier.blurb}</p>
-              <ul class="placement">
-                {tier.placement.map((p) => (
-                  <li>{p}</li>
-                ))}
-              </ul>
-            </article>
-          ))
-        }
-      </div>
-    </section>
-
-    <section class="block" aria-labelledby="wall-head">
+<section class="block" aria-labelledby="wall-head">
       <h2 class="eyebrow" id="wall-head">On the wall<span class="tr" lang="tr" aria-hidden="true">duvar</span></h2>
       {showSeedNote && (
         <p class="seed-note">
@@ -85,7 +51,6 @@ const funds = [
           {visibleSponsors.map((s) => (
             <li class="sponsor">
               <a href={s.url}>{s.name}</a>
-              <span class="tier-tag">{s.tier}</span>
               {s.blurb && <span class="sponsor-blurb">{s.blurb}</span>}
             </li>
           ))}
@@ -100,7 +65,7 @@ const funds = [
     <section class="block independence" aria-labelledby="indep-head">
       <h2 class="eyebrow" id="indep-head">Editorial independence<span class="tr" lang="tr" aria-hidden="true">bağımsızlık</span></h2>
       <p>
-        Sponsorship funds the work; it does not buy the words. A tier never implies an
+        Sponsorship funds the work; it does not buy the words. Support never implies an
         endorsement, and it never shapes what we write or recommend. When a sponsor also appears
         on the <a href="/recommendations/">recommendations</a> page, that relationship is disclosed
         in both places. Names and logos are shown only with permission, and removed on request.
@@ -175,74 +140,6 @@ const funds = [
     background: var(--amber);
   }
 
-  .tiers-note {
-    max-width: var(--measure);
-    margin-bottom: 1.6rem;
-    color: var(--cream-dim);
-    font-size: 0.9375rem;
-  }
-
-  .tiers {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-    gap: 1.2rem;
-  }
-  .tier {
-    background: var(--ink-raised);
-    border: 1px solid var(--cream-faint);
-    border-radius: 0.9rem;
-    padding: 1.5rem 1.6rem;
-    display: flex;
-    flex-direction: column;
-  }
-  .tier-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 0.8rem;
-    margin-bottom: 0.5rem;
-  }
-  .tier h3 {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.3rem;
-  }
-  .tier-amount {
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    color: var(--amber);
-    white-space: nowrap;
-  }
-  .tier-blurb {
-    color: var(--cream-dim);
-    font-size: 0.9375rem;
-  }
-  .placement {
-    list-style: none;
-    padding: 0;
-    margin-top: 1.1rem;
-    padding-top: 1.1rem;
-    border-top: 1px solid var(--cream-faint);
-    display: grid;
-    gap: 0.55rem;
-  }
-  .placement li {
-    position: relative;
-    padding-left: 1.2rem;
-    font-size: 0.875rem;
-    color: var(--cream-dim);
-  }
-  .placement li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.5em;
-    width: 0.42em;
-    height: 0.42em;
-    border-radius: 0.12em;
-    background: var(--amber);
-  }
-
   .wall {
     list-style: none;
     padding: 0;
@@ -263,16 +160,6 @@ const funds = [
   }
   .sponsor > a:hover {
     color: var(--amber);
-  }
-  .tier-tag {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--cream-dim);
-    border: 1px solid var(--cream-faint);
-    border-radius: 999px;
-    padding: 0.12rem 0.55rem;
   }
   .sponsor-blurb {
     flex-basis: 100%;
