@@ -8,8 +8,8 @@ export interface Sponsor {
   placeholder?: boolean;
 }
 
-/** The GitHub Sponsors destination — a placeholder until the account is live. */
-export const sponsorLink = 'https://github.com/sponsors/apphane-dev';
+/** The GitHub Sponsors destination for the maintainer behind apphane. */
+export const sponsorLink = 'https://github.com/sponsors/Guria';
 
 /**
  * Current supporters. Empty is the honest default; the seed entry below is a
