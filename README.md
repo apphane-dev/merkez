@@ -29,3 +29,12 @@ Projects are data-driven: add an entry to `src/data/projects.ts` and its card
 and lit window appear automatically. Dark windows in the strip are placeholders
 for projects not yet public — bump `HOUSE_WINDOWS` if the house runs out of
 rooms.
+
+## Sponsors
+
+The sponsors wall is fetched at build time from the maintainer's public GitHub
+Sponsors (`src/data/sponsors.ts`), so new supporters appear with no code
+changes; a daily scheduled deploy rebuilds the wall. CI passes `SPONSORS_TOKEN`
+(defaults to the workflow token — public sponsorships need no extra scopes). A
+local build without a token skips the fetch. Sponsors not on GitHub go in
+`manualSponsors` in the same file.

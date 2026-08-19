@@ -2,7 +2,9 @@
 import Base from '../layouts/Base.astro';
 import SiteHeader from '../components/site/SiteHeader.astro';
 import SiteFooter from '../components/site/SiteFooter.astro';
-import { visibleSponsors, showSeedNote, sponsorLink } from '../data/sponsors';
+import { getSponsors, showSeedNote, sponsorLink } from '../data/sponsors';
+
+const visibleSponsors = await getSponsors();
 
 const funds = [
   'Time — the scarce input. Sponsorship buys hours to maintain and document, not just to build.',

@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Daily rebuild so the sponsors wall (fetched from the GitHub Sponsors API
+  # at build time) picks up new supporters without a manual push.
+  schedule:
+    - cron: '37 3 * * *'
 
 permissions:
   contents: read
@@ -29,6 +33,11 @@ jobs:
         run: mise install
       - name: Build
         run: mise run build
+        env:
+          # SPONSORS_GITHUB_TOKEN (PAT, no scopes needed for public
+          # sponsorships) overrides the repo token if the GitHub App token
+          # ever loses access to the GraphQL query.
+          SPONSORS_TOKEN: ${{ secrets.SPONSORS_GITHUB_TOKEN || github.token }}
       - name: Deploy to Cloudflare Pages
         # Call wrangler directly rather than via cloudflare/wrangler-action.
         # The action runs `npm i wrangler` inside the repo, which triggers npm's
