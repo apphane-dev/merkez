@@ -3,6 +3,7 @@ import { SHOW_EXAMPLES } from '../lib/flags';
 export interface Sponsor {
   name: string;
   url: string;
+  avatar?: string;
   /** Hand-written only; GitHub sponsorships carry no blurb. */
   blurb?: string;
   /** Shown by hand-written entries only; the public API needs `read:user` to
@@ -50,12 +51,14 @@ const SPONSORS_QUERY = /* GraphQL */ `
               name
               url
               websiteUrl
+              avatarUrl
             }
             ... on Organization {
               login
               name
               url
               websiteUrl
+              avatarUrl
             }
           }
         }
@@ -69,6 +72,7 @@ interface SponsorEntity {
   name: string | null;
   url: string;
   websiteUrl: string | null;
+  avatarUrl: string;
 }
 
 interface SponsorsResponse {
@@ -112,6 +116,7 @@ async function fetchGitHubSponsors(): Promise<Sponsor[]> {
   return nodes.map(({ sponsorEntity: e }) => ({
     name: e.name || e.login,
     url: e.websiteUrl || e.url,
+    avatar: e.avatarUrl,
     blurb: blurbOverrides[e.login],
   }));
 }
