@@ -38,3 +38,4 @@ changes; a daily scheduled deploy rebuilds the wall. CI passes `SPONSORS_TOKEN`
 (defaults to the workflow token — public sponsorships need no extra scopes). A
 local build without a token skips the fetch. Sponsors not on GitHub go in
 `manualSponsors` in the same file.
+
