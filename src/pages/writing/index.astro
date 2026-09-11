@@ -53,20 +53,21 @@ const counts = Object.fromEntries(
   .kinds {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-    gap: 1rem;
-    margin-bottom: 3rem;
+    gap: 16px;
+    margin-bottom: 48px;
   }
 
   .kind-card {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: baseline;
-    gap: 0.4rem 1rem;
-    background: var(--ink-raised);
+    gap: 4px 16px;
+    background: var(--surface-1);
     border: 1px solid var(--cream-faint);
-    border-radius: 0.9rem;
-    padding: 1.2rem 1.3rem;
+    border-radius: 12px;
+    padding: 16px;
     color: inherit;
+    transition: border-color var(--dur) var(--ease-fluid);
   }
 
   .kind-card:hover {
@@ -75,23 +76,25 @@ const counts = Object.fromEntries(
 
   .kind-card .count {
     font-family: var(--font-mono);
-    font-size: 1.3rem;
+    font-size: 24px; /* text-2xl */
+    line-height: 32px;
     color: var(--cream);
     justify-self: end;
   }
 
   .kind-card .blurb {
     grid-column: 1 / -1;
-    font-size: 0.9rem;
+    font-size: 14px; /* text-sm */
+    line-height: 20px;
     color: var(--cream-dim);
   }
 
   .feed {
-    margin-bottom: 1rem;
+    margin-bottom: 16px;
   }
 
   .empty {
     color: var(--cream-dim);
-    padding: 2rem 0;
+    padding: 32px 0;
   }
 </style>

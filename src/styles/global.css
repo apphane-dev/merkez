@@ -1,7 +1,16 @@
-/* apphane design tokens — sampled from the logo */
+/* apphane design system — reworked per the landing page design skill.
+   Single typeface (Manrope), Geist Mono only where monospace is functional.
+   Backgrounds come from the approved dark set; every transition uses the
+   fluid cubic bezier; spacing and type sizes sit on fixed scales. */
 :root {
-  --ink: #00030c; /* matches the logo PNG background exactly */
-  --ink-raised: #080d1c;
+  /* Approved dark mode backgrounds only. */
+  --ink: #131209;
+  --ink-raised: #181818; /* legacy alias -> surface-1 */
+  --surface-1: #181818;
+  --surface-2: #1f1f1f;
+  --surface-3: #272727;
+  --surface-4: #313131;
+
   --cream: #fcedd2;
   --cream-dim: #b3aa95;
   --cream-faint: rgba(252, 237, 210, 0.14);
@@ -9,12 +18,16 @@
   --ember: #d97e0a;
   --glow: rgba(253, 161, 21, 0.35);
 
-  --font-display: 'Baloo 2', system-ui, sans-serif;
-  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-body: 'Manrope', system-ui, sans-serif;
+  --font-display: 'Manrope', system-ui, sans-serif; /* one typeface per site */
+  --font-mono: 'Geist Mono', ui-monospace, monospace; /* code and data only */
 
-  --measure: 42rem;
+  --measure: 680px; /* hero cap */
+  --measure-text: 42rem;
   --page: 82rem;
+
+  --ease-fluid: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur: 700ms;
 }
 
 * {
@@ -31,9 +44,25 @@ body {
   background: var(--ink);
   color: var(--cream);
   font-family: var(--font-body);
-  font-size: 1.0625rem;
-  line-height: 1.65;
+  font-size: 16px; /* text-base */
+  line-height: 24px;
   -webkit-font-smoothing: antialiased;
+}
+
+/* The interface never uses italic faces. */
+em,
+i {
+  font-style: normal;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 img,
@@ -58,14 +87,89 @@ button:focus-visible {
   border-radius: 4px;
 }
 
+/* Plain inline links get a visible buffer from neighboring words plus a
+   larger invisible hit area. Horizontal margins offset only part of that
+   padding so links do not sit flush against the surrounding sentence. */
+a:not([class]) {
+  padding: 0.18em 0.32em;
+  margin: -0.18em -0.16em;
+}
+
+/* Buttons: text-base semibold, 8px vertical and 12px horizontal padding. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    transform var(--dur) var(--ease-fluid),
+    background-color var(--dur) var(--ease-fluid),
+    border-color var(--dur) var(--ease-fluid),
+    color var(--dur) var(--ease-fluid),
+    box-shadow var(--dur) var(--ease-fluid);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-solid {
+  background: var(--amber);
+  color: var(--ink);
+}
+
+.btn-solid:hover {
+  background: var(--ember);
+  color: var(--ink);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--glow);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--cream);
+  border: 1px solid var(--cream-faint);
+}
+
+.btn-ghost:hover {
+  color: var(--amber);
+  border-color: var(--amber);
+  transform: translateY(-2px);
+}
+
 code {
   font-family: var(--font-mono);
-  font-size: 0.9em;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 ::selection {
   background: var(--amber);
   color: var(--ink);
+}
+
+/* Scroll interpolation: gentle heavy fade up via IntersectionObserver.
+   Initial state only applies when JS is running, so content is never hidden
+   from no-JS visitors. */
+.js [data-reveal] {
+  opacity: 0;
+  translate: 0 64px;
+  filter: blur(12px);
+  transition:
+    opacity 800ms var(--ease-fluid),
+    translate 800ms var(--ease-fluid),
+    filter 800ms var(--ease-fluid);
+}
+
+.js [data-reveal].is-visible {
+  opacity: 1;
+  translate: 0 0;
+  filter: blur(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -78,6 +182,12 @@ code {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+  .js [data-reveal] {
+    opacity: 1;
+    translate: 0 0;
+    filter: blur(0);
   }
 }
 
@@ -86,7 +196,7 @@ code {
 .page {
   max-width: var(--page);
   margin: 0 auto;
-  padding: 0 1.5rem 4rem;
+  padding: 0 24px 64px;
 }
 
 /* Skip visual clutter but keep a keyboard target for the main content. */
@@ -97,20 +207,21 @@ code {
 .skip:focus {
   position: static;
   display: inline-block;
-  margin: 0.6rem 1.5rem;
+  margin: 8px 24px;
 }
 
 .eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
-  font-weight: 400;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.22em;
   color: var(--amber);
-  margin-bottom: 1.6rem;
+  margin-bottom: 16px;
 }
 
-/* A dimmed Turkish echo trailing the English eyebrow — same mono voice as the
+/* A dimmed Turkish echo trailing the English eyebrow — same voice as the
    project names, purely decorative (aria-hidden) so it never doubles up for
    screen readers. Rendered in the word's natural lowercase to keep proper
    Turkish glyphs (ı ş ğ ü ö ç) intact rather than uppercasing them. */
@@ -120,6 +231,7 @@ code {
   opacity: 0.6;
   text-transform: none;
   letter-spacing: 0.1em;
+  font-weight: 400;
 }
 
 .eyebrow::before {
@@ -127,40 +239,41 @@ code {
   display: inline-block;
   width: 0.55em;
   height: 0.55em;
-  border-radius: 0.15em;
+  border-radius: 4px;
   background: var(--amber);
   margin-right: 0.7em;
 }
 
 .page-head {
-  padding: 2.5rem 0 2.8rem;
+  padding: 40px 0 32px;
   border-bottom: 1px solid var(--cream-faint);
-  margin-bottom: 2.8rem;
+  margin-bottom: 32px;
 }
 
 .page-head h1 {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2rem, 5vw, 3rem);
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+  font-size: 36px; /* text-4xl */
+  line-height: 40px;
 }
 
 .page-head .lede {
-  max-width: var(--measure);
-  margin-top: 1.1rem;
-  font-size: 1.125rem;
+  max-width: var(--measure-text);
+  margin-top: 12px;
+  font-size: 18px; /* text-lg */
+  line-height: 28px;
   color: var(--cream-dim);
 }
 
 /* A chronological archive of writing. Single column on phones, two roomy
-   columns once the viewport can hold them — the feed uses the width instead
-   of stranding a lone centered column. A remaining odd card keeps its track
-   width rather than stretching across the row. */
+   columns once the viewport can hold them. A remaining odd card keeps its
+   track width rather than stretching across the row. */
 .writing-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(27rem, 1fr));
-  column-gap: 3.2rem;
+  /* min(27rem, 100%) collapses to one column on phones instead of forcing
+     the 432px min track past the viewport. */
+  grid-template-columns: repeat(auto-fill, minmax(min(27rem, 100%), 1fr));
+  column-gap: 48px;
 }
 
 /* A small labelled marker for a piece of writing's kind — echoes the
@@ -170,7 +283,8 @@ code {
   align-items: center;
   gap: 0.5em;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 12px; /* text-xs */
+  line-height: 16px;
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: var(--cream-dim);
@@ -180,7 +294,7 @@ code {
   content: '';
   width: 0.6em;
   height: 0.6em;
-  border-radius: 0.16em;
+  border-radius: 4px;
   background: var(--pane, var(--cream-dim));
   box-shadow: 0 0 10px var(--glow-pane, transparent);
 }
@@ -199,26 +313,28 @@ code {
 .chip {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-size: 12px; /* text-xs */
+  line-height: 16px;
   color: var(--cream);
   border: 1px solid var(--cream-faint);
   border-radius: 999px;
-  padding: 0.22rem 0.72rem;
+  padding: 2px 12px;
 }
 
 .chip-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 .seed-note {
   border: 1px dashed var(--cream-faint);
-  border-radius: 0.7rem;
-  padding: 0.7rem 1rem;
-  font-size: 0.875rem;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 20px;
   color: var(--cream-dim);
-  margin-bottom: 2rem;
+  margin-bottom: 32px;
 }
 .seed-note strong {
   color: var(--amber);

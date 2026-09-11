@@ -29,7 +29,7 @@ const kind = kinds[data.kind as keyof typeof kinds];
 
 <style>
   .entry {
-    padding: 1.7rem 0;
+    padding: 24px 0;
     border-top: 1px solid var(--cream-faint);
   }
 
@@ -43,24 +43,26 @@ const kind = kinds[data.kind as keyof typeof kinds];
   }
 
   .entry h2 {
-    font-family: var(--font-display);
     font-weight: 600;
-    font-size: 1.5rem;
-    line-height: 1.2;
-    margin-top: 0.6rem;
-    transition: color 0.15s ease;
+    font-size: 20px; /* text-xl */
+    line-height: 28px;
+    margin-top: 8px;
+    transition: color var(--dur) var(--ease-fluid);
   }
 
   .dek {
-    margin-top: 0.5rem;
+    margin-top: 8px;
     color: var(--cream-dim);
-    max-width: var(--measure);
+    font-size: 16px; /* text-base */
+    line-height: 24px;
+    max-width: var(--measure-text);
   }
 
   .meta {
-    margin-top: 0.9rem;
+    margin-top: 12px;
     font-family: var(--font-mono);
-    font-size: 0.8125rem;
+    font-size: 12px; /* text-xs */
+    line-height: 16px;
     color: var(--cream-dim);
   }
 

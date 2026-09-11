@@ -1,9 +1,9 @@
 ---
-import '@fontsource/baloo-2/600.css';
-import '@fontsource/baloo-2/700.css';
-import '@fontsource/ibm-plex-sans/400.css';
-import '@fontsource/ibm-plex-sans/500.css';
-import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/manrope/400.css';
+import '@fontsource/manrope/500.css';
+import '@fontsource/manrope/600.css';
+import '@fontsource/manrope/700.css';
+import '@fontsource/geist-mono/400.css';
 import '../styles/global.css';
 
 interface Props {
@@ -48,9 +48,33 @@ const ogImage = new URL('apphane-logo.png', Astro.site);
       <meta property="article:modified_time" content={updatedAt.toISOString()} />
     )}
     <meta name="twitter:card" content="summary" />
-    <meta name="theme-color" content="#00030C" />
+    <meta name="theme-color" content="#131209" />
   </head>
   <body>
     <slot />
+    <script>
+      // Scroll interpolation engine. Elements marked [data-reveal] fade up
+      // heavily as they enter the viewport; observed once, never a scroll
+      // listener. No-JS visitors see the page statically.
+      document.documentElement.classList.add('js');
+      const targets = document.querySelectorAll('[data-reveal]');
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced || !('IntersectionObserver' in window)) {
+        targets.forEach((el) => el.classList.add('is-visible'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.12 },
+        );
+        targets.forEach((el) => io.observe(el));
+      }
+    </script>
   </body>
 </html>
