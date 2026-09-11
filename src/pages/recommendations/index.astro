@@ -87,53 +87,52 @@ const grouped = order.map((cat) => ({
 <style>
   .empty {
     color: var(--cream-dim);
-    font-style: italic;
-    padding: 2rem 0;
+    padding: 32px 0;
   }
 
   .group {
-    margin-bottom: 3rem;
+    margin-bottom: 48px;
   }
 
   .group-head {
     font-family: var(--font-mono);
-    font-size: 0.8125rem;
+    font-size: 12px; /* text-xs */
+    line-height: 16px;
     text-transform: uppercase;
     letter-spacing: 0.18em;
     color: var(--cream-dim);
-    padding-bottom: 0.8rem;
+    padding-bottom: 8px;
     border-bottom: 1px solid var(--cream-faint);
-    margin-bottom: 1.4rem;
+    margin-bottom: 16px;
   }
 
   .cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-    gap: 1.2rem;
+    gap: 16px;
   }
 
   .rec {
-    background: var(--ink-raised);
+    background: var(--surface-1);
     border: 1px solid var(--cream-faint);
-    border-radius: 0.9rem;
-    padding: 1.4rem 1.5rem;
+    border-radius: 12px;
+    padding: 16px 24px;
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 8px;
   }
 
   .rec-top {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    gap: 0.8rem;
+    gap: 8px;
   }
 
   .rec h3 {
-    font-family: var(--font-display);
     font-weight: 600;
-    font-size: 1.2rem;
-    line-height: 1.25;
+    font-size: 18px; /* text-lg */
+    line-height: 28px;
   }
 
   .rec h3 a {
@@ -146,47 +145,52 @@ const grouped = order.map((cat) => ({
   .rel {
     flex-shrink: 0;
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
+    font-size: 12px; /* text-xs */
+    line-height: 16px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--amber);
     border: 1px solid var(--glow);
     border-radius: 999px;
-    padding: 0.15rem 0.55rem;
+    padding: 2px 8px;
     white-space: nowrap;
   }
 
   .summary {
     color: var(--cream-dim);
-    font-size: 0.9375rem;
+    font-size: 14px; /* text-sm */
+    line-height: 20px;
   }
 
   .why {
-    font-size: 0.9375rem;
+    font-size: 14px; /* text-sm */
+    line-height: 20px;
   }
 
   .why-label {
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
+    font-size: 12px; /* text-xs */
+    line-height: 16px;
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: var(--amber);
-    margin-right: 0.35rem;
+    margin-right: 4px;
   }
 
   .rec-foot {
     margin-top: auto;
-    padding-top: 0.9rem;
+    padding-top: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 0.8rem;
+    gap: 8px;
     flex-wrap: wrap;
   }
 
   .reviewed {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 12px; /* text-xs */
+    line-height: 16px;
     color: var(--cream-dim);
   }
 </style>

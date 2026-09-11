@@ -31,7 +31,7 @@ const funds = [
         from the house help keep it maintained — and keep the next room getting built.
       </p>
       <p class="cta-row">
-        <a class="cta" href={sponsorLink}>Sponsor on GitHub ↗</a>
+        <a class="btn btn-solid" href={sponsorLink}>Sponsor on GitHub</a>
         <span class="cta-note">Support Aleksei Gurianov’s work on apphane.</span>
       </p>
     </div>
@@ -43,7 +43,7 @@ const funds = [
       </ul>
     </section>
 
-<section class="block" aria-labelledby="wall-head">
+    <section class="block" aria-labelledby="wall-head">
       <h2 class="eyebrow" id="wall-head">On the wall<span class="tr" lang="tr" aria-hidden="true">duvar</span></h2>
       {showSeedNote && (
         <p class="seed-note">
@@ -104,37 +104,30 @@ const funds = [
 
 <style>
   .cta-row {
-    margin-top: 1.6rem;
+    margin-top: 24px;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 16px;
     flex-wrap: wrap;
-  }
-
-  .cta {
-    display: inline-block;
-    background: var(--amber);
-    color: var(--ink);
-    font-family: var(--font-display);
-    font-weight: 700;
-    padding: 0.6rem 1.3rem;
-    border-radius: 0.7rem;
-    box-shadow: 0 0 26px var(--glow);
-  }
-  .cta:hover {
-    background: var(--ember);
-    color: var(--ink);
   }
 
   .cta-note {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 12px; /* text-xs */
+    line-height: 16px;
     color: var(--cream-dim);
   }
 
   .block {
-    padding: 2.6rem 0;
+    padding: 40px 0;
+  }
+
+  .block + .block {
     border-top: 1px solid var(--cream-faint);
+  }
+
+  .block:first-of-type {
+    padding-top: 0;
   }
 
   /* Roomy columns at desktop so each reason wraps in full phrases instead of
@@ -145,10 +138,10 @@ const funds = [
     padding: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
-    gap: 1.2rem 2.6rem;
+    gap: 16px 32px;
   }
   .funds li {
-    padding-left: 1.3rem;
+    padding-left: 16px;
     position: relative;
     color: var(--cream-dim);
   }
@@ -170,12 +163,12 @@ const funds = [
     padding: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-    gap: 1.2rem;
+    gap: 16px;
     max-width: 46rem;
   }
 
   .sponsor-card {
-    animation: settle 0.5s ease-out both;
+    animation: settle var(--dur) var(--ease-fluid) both;
     animation-delay: var(--delay);
   }
 
@@ -185,21 +178,22 @@ const funds = [
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 0.35rem;
-    padding: 1.7rem 1.2rem 1.4rem;
+    gap: 4px;
+    padding: 24px 16px;
     border: 1px solid var(--cream-faint);
-    border-radius: 0.9rem;
-    background: var(--ink-raised);
+    border-radius: 12px;
+    background: var(--surface-1);
+    transition: border-color var(--dur) var(--ease-fluid);
   }
   .card-link:hover {
     border-color: var(--amber);
   }
 
   .avatar {
-    width: 5.5rem;
-    height: 5.5rem;
-    margin-bottom: 0.8rem;
-    border-radius: 0.8rem;
+    width: 88px;
+    height: 88px;
+    margin-bottom: 12px;
+    border-radius: 12px;
     border: 1.5px solid var(--amber);
     box-shadow: 0 0 22px var(--glow);
     object-fit: cover;
@@ -216,19 +210,19 @@ const funds = [
   }
   .avatar.placeholder .panes {
     display: grid;
-    grid-template-columns: repeat(2, 1.1rem);
-    grid-template-rows: repeat(2, 1.1rem);
-    gap: 0.35rem;
+    grid-template-columns: repeat(2, 16px);
+    grid-template-rows: repeat(2, 16px);
+    gap: 4px;
   }
   .avatar.placeholder .panes i {
-    border-radius: 0.2rem;
+    border-radius: 4px;
     background: var(--amber);
   }
 
   .sponsor-name {
-    font-family: var(--font-display);
     font-weight: 600;
-    font-size: 1.15rem;
+    font-size: 18px; /* text-lg */
+    line-height: 28px;
     color: var(--cream);
   }
   .card-link:hover .sponsor-name {
@@ -237,21 +231,23 @@ const funds = [
 
   .sponsor-site {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 12px; /* text-xs */
+    line-height: 16px;
     letter-spacing: 0.04em;
     color: var(--cream-dim);
   }
 
   .sponsor-blurb {
-    margin: 0.7rem 0 0;
+    margin: 8px 0 0;
     color: var(--cream-dim);
-    font-size: 0.9rem;
+    font-size: 14px; /* text-sm */
+    line-height: 20px;
   }
 
   @keyframes settle {
     from {
       opacity: 0;
-      translate: 0 6px;
+      translate: 0 8px;
     }
     to {
       opacity: 1;
@@ -261,14 +257,13 @@ const funds = [
 
   .wall-empty {
     color: var(--cream-dim);
-    font-style: italic;
   }
 
   .independence p {
-    max-width: var(--measure);
+    max-width: var(--measure-text);
     color: var(--cream-dim);
   }
   .independence .contact {
-    margin-top: 1rem;
+    margin-top: 16px;
   }
 </style>

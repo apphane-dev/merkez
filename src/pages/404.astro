@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/site/SiteHeader.astro';
+import SiteFooter from '../components/site/SiteFooter.astro';
+---
+
+<Base
+  title="Page not found — apphane"
+  description="This room does not exist. Head back to the house."
+>
+  <a class="skip" href="#main">Skip to content</a>
+  <SiteHeader />
+  <main id="main" class="page lost">
+    <p class="code" aria-hidden="true">404</p>
+    <h1>This room is dark.</h1>
+    <p class="lede">
+      The page you were looking for is not part of the house. The lights you can follow are on
+      the front page.
+    </p>
+    <div class="actions">
+      <a class="btn btn-solid" href="/">Back to the house</a>
+      <a class="btn btn-ghost" href="/writing/">Read the writing</a>
+    </div>
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .lost {
+    text-align: center;
+    padding-top: 96px;
+    padding-bottom: 96px;
+  }
+
+  .code {
+    font-family: var(--font-mono);
+    font-size: 60px; /* text-6xl */
+    line-height: 1;
+    color: var(--amber);
+  }
+
+  h1 {
+    margin-top: 24px;
+    font-weight: 700;
+    font-size: 36px; /* text-4xl */
+    line-height: 40px;
+  }
+
+  .lede {
+    max-width: 680px;
+    margin: 16px auto 0;
+    color: var(--cream-dim);
+    font-size: 18px; /* text-lg */
+    line-height: 28px;
+  }
+
+  .actions {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+</style>

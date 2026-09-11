@@ -8,7 +8,7 @@ interface Props {
 const { project } = Astro.props;
 ---
 
-<article class="card" id={project.id}>
+<article class="card" id={project.id} data-reveal>
   <header class="card-head">
     <h3 class="card-name">
       <span class="brace" aria-hidden="true">&#123;</span>
@@ -60,25 +60,30 @@ const { project } = Astro.props;
 
 <style>
   .card {
-    background: var(--ink-raised);
+    background: var(--surface-1);
     border: 1px solid var(--cream-faint);
-    border-radius: 1.1rem;
-    padding: 2.2rem 2.4rem;
-    scroll-margin-top: 3rem;
+    border-radius: 16px;
+    padding: 24px;
+    scroll-margin-top: 96px;
+    transition: border-color var(--dur) var(--ease-fluid);
+  }
+
+  .card:hover {
+    border-color: rgba(253, 161, 21, 0.4);
   }
 
   .card-head {
     display: flex;
     align-items: baseline;
-    gap: 1rem;
+    gap: 16px;
     flex-wrap: wrap;
   }
 
   .card-name {
-    font-family: var(--font-display);
+    font-family: var(--font-body);
     font-weight: 700;
-    font-size: 2rem;
-    line-height: 1.2;
+    font-size: 24px; /* text-2xl */
+    line-height: 32px;
   }
 
   .brace {
@@ -87,74 +92,81 @@ const { project } = Astro.props;
   }
 
   .gloss {
-    font-size: 0.9375rem;
+    font-size: 14px; /* text-sm */
+    line-height: 20px;
     color: var(--cream-dim);
   }
 
   .tagline {
-    margin-top: 0.9rem;
-    font-size: 1.15rem;
+    margin-top: 12px;
+    font-size: 18px; /* text-lg */
+    line-height: 28px;
     font-weight: 500;
   }
 
   .desc {
-    margin-top: 0.6rem;
+    margin-top: 8px;
     color: var(--cream-dim);
-    max-width: var(--measure);
+    font-size: 16px; /* text-base */
+    line-height: 24px;
+    max-width: var(--measure-text);
   }
 
   .features {
-    margin-top: 1.4rem;
+    margin-top: 16px;
     padding: 0;
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 8px;
   }
 
   .features li {
     font-family: var(--font-mono);
-    font-size: 0.8125rem;
+    font-size: 12px; /* text-xs */
+    line-height: 16px;
     color: var(--cream);
     border: 1px solid var(--cream-faint);
     border-radius: 999px;
-    padding: 0.25rem 0.75rem;
+    padding: 4px 12px;
   }
 
   .install {
-    margin-top: 1.6rem;
+    margin-top: 24px;
     display: flex;
     align-items: baseline;
-    gap: 0.9rem;
+    gap: 16px;
     flex-wrap: wrap;
   }
 
   .install-label {
-    font-size: 0.9375rem;
+    font-size: 14px; /* text-sm */
+    line-height: 20px;
     color: var(--cream-dim);
   }
 
   .install code {
-    background: var(--ink);
+    background: var(--surface-2);
     border: 1px solid var(--cream-faint);
-    border-radius: 0.5rem;
-    padding: 0.45rem 0.85rem;
+    border-radius: 8px;
+    padding: 8px 12px;
     color: var(--amber);
   }
 
   .card-foot {
-    margin-top: 1.8rem;
-    padding-top: 1.3rem;
+    margin-top: 24px;
+    padding-top: 16px;
     border-top: 1px solid var(--cream-faint);
     display: flex;
     align-items: baseline;
-    gap: 1.1rem;
+    gap: 16px;
     flex-wrap: wrap;
   }
 
   .meta {
     font-family: var(--font-mono);
-    font-size: 0.8125rem;
+    font-size: 12px; /* text-xs */
+    line-height: 16px;
     color: var(--cream-dim);
   }
 
@@ -163,17 +175,14 @@ const { project } = Astro.props;
   }
 
   .link {
-    font-weight: 500;
-    font-size: 0.9375rem;
-  }
-
-  .home-link {
-    font-weight: 700;
+    font-weight: 600;
+    font-size: 14px; /* text-sm */
+    line-height: 20px;
   }
 
   @media (max-width: 40rem) {
     .card {
-      padding: 1.5rem 1.3rem;
+      padding: 24px 16px;
     }
   }
 </style>

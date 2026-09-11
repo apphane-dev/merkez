@@ -1,8 +1,9 @@
 ---
 /**
- * Shared house header. The nav stays restrained: the four rooms plus the door
- * to GitHub. It wraps rather than collapsing behind a menu, so it stays usable
- * on a phone with no JavaScript.
+ * Fluid island nav. A floating glass pill detached from the top; on small
+ * screens the hamburger morphs into an X and the menu opens as a screen
+ * filling overlay with staggered link reveals. All motion runs on the shared
+ * fluid cubic bezier.
  */
 const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
 
@@ -12,92 +13,324 @@ const links = [
   { label: 'Recommendations', href: '/recommendations/', match: /^\/recommendations/ },
   { label: 'Sponsors', href: '/sponsors/', match: /^\/sponsors/ },
 ];
+const stagger = [100, 150, 200, 250, 300];
 ---
 
 <header class="top">
-  <a class="home" href="/" aria-label="apphane home">
-    <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true">
-      <g fill="var(--amber)">
-        <rect x="8" y="8" width="21" height="21" rx="5"></rect>
-        <rect x="35" y="8" width="21" height="21" rx="5"></rect>
-        <rect x="8" y="35" width="21" height="21" rx="5"></rect>
-      </g>
-      <rect x="35" y="35" width="21" height="21" rx="5" fill="var(--cream)"></rect>
-    </svg>
-    <span>apphane</span>
-  </a>
-  <nav aria-label="Primary">
-    {
-      links.map((link) => (
-        <a
-          href={link.href}
-          aria-current={link.match.test(path) ? 'page' : undefined}
-        >
-          {link.label}
-        </a>
-      ))
-    }
-    <a class="ext" href="https://github.com/apphane-dev">GitHub&nbsp;↗</a>
-  </nav>
+  <div class="pill">
+    <a class="home" href="/" aria-label="apphane home">
+      <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true">
+        <g fill="var(--amber)">
+          <rect x="8" y="8" width="21" height="21" rx="8"></rect>
+          <rect x="35" y="8" width="21" height="21" rx="8"></rect>
+          <rect x="8" y="35" width="21" height="21" rx="8"></rect>
+        </g>
+        <rect x="35" y="35" width="21" height="21" rx="8" fill="var(--cream)"></rect>
+      </svg>
+      <span>apphane</span>
+    </a>
+    <nav class="links" aria-label="Primary">
+      {
+        links.map((link) => (
+          <a href={link.href} aria-current={link.match.test(path) ? 'page' : undefined}>
+            {link.label}
+          </a>
+        ))
+      }
+      <a class="ext" href="https://github.com/apphane-dev">GitHub ↗</a>
+    </nav>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="menu-overlay" aria-label="Open menu">
+      <span class="line" aria-hidden="true"></span>
+      <span class="line" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <dialog class="menu" id="menu-overlay">
+    <nav aria-label="Menu">
+      {
+        links.map((link, i) => (
+          <a
+            class="menu-link"
+            href={link.href}
+            aria-current={link.match.test(path) ? 'page' : undefined}
+            style={`transition-delay: ${stagger[i] ?? 350}ms`}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a class="menu-link ext" href="https://github.com/apphane-dev" style="transition-delay: 350ms">
+        GitHub ↗
+      </a>
+    </nav>
+  </dialog>
 </header>
 
 <style>
   .top {
-    max-width: var(--page);
-    margin: 0 auto;
-    padding: 1.4rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 60;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    padding: 24px 24px 0;
+    pointer-events: none;
+  }
+
+  .pill {
+    pointer-events: auto;
+    display: inline-flex;
     align-items: center;
-    gap: 1rem 1.4rem;
-    flex-wrap: wrap;
+    gap: 16px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid var(--cream-faint);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: background-color var(--dur) var(--ease-fluid);
   }
 
   .home {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    font-family: var(--font-display);
+    gap: 8px;
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 16px;
+    line-height: 24px;
     color: var(--cream);
+    padding: 0 4px;
   }
 
-  nav {
+  .links {
     display: flex;
-    align-items: baseline;
-    gap: 0.35rem 1.15rem;
-    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
   }
 
-  nav a {
-    font-weight: 500;
-    font-size: 0.9375rem;
+  .links a {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
     color: var(--cream);
-    position: relative;
-    padding-bottom: 0.15rem;
-  }
-
-  nav a:hover {
-    color: var(--amber);
-  }
-
-  nav a[aria-current='page'] {
-    color: var(--amber);
-  }
-
-  nav a[aria-current='page']::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -0.1rem;
-    height: 1.5px;
-    background: var(--amber);
+    padding: 8px 12px;
     border-radius: 999px;
+    transition:
+      color var(--dur) var(--ease-fluid),
+      background-color var(--dur) var(--ease-fluid),
+      transform var(--dur) var(--ease-fluid);
+  }
+
+  .links a:hover {
+    color: var(--amber);
+    background: rgba(253, 161, 21, 0.1);
+  }
+
+  .links a:active {
+    transform: scale(0.98);
+  }
+
+  .links a[aria-current='page'] {
+    color: var(--amber);
   }
 
   .ext {
     color: var(--cream-dim);
   }
+
+  /* Hamburger: two lines that rotate and translate into a perfect X. */
+  .burger {
+    display: none;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .burger .line {
+    position: absolute;
+    left: 10px;
+    width: 20px;
+    height: 2px;
+    background: var(--cream);
+    border-radius: 999px;
+    transition:
+      transform var(--dur) var(--ease-fluid),
+      top var(--dur) var(--ease-fluid);
+  }
+
+  .burger .line:nth-child(1) {
+    top: 17px;
+  }
+
+  .burger .line:nth-child(2) {
+    top: 23px;
+  }
+
+  .burger[aria-expanded='true'] .line:nth-child(1) {
+    top: 20px;
+    transform: rotate(45deg);
+  }
+
+  .burger[aria-expanded='true'] .line:nth-child(2) {
+    top: 20px;
+    transform: rotate(-45deg);
+  }
+
+  /* Screen filling glass overlay with staggered link reveals. */
+  .menu {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    padding: 0;
+    border: 0;
+    color: var(--cream);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(64px);
+    -webkit-backdrop-filter: blur(64px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: auto;
+    transition:
+      opacity var(--dur) var(--ease-fluid),
+      visibility var(--dur) var(--ease-fluid);
+  }
+
+  .menu.open {
+    opacity: 1;
+    visibility: visible;
+    /* Focus must be able to enter immediately, before the fade completes. */
+    transition: opacity var(--dur) var(--ease-fluid);
+  }
+
+  .menu nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+  }
+
+  .menu-link {
+    font-size: 30px; /* text-3xl */
+    line-height: 36px;
+    font-weight: 600;
+    color: var(--cream);
+    opacity: 0;
+    translate: 0 48px;
+    transition:
+      opacity var(--dur) var(--ease-fluid),
+      translate var(--dur) var(--ease-fluid),
+      color var(--dur) var(--ease-fluid);
+  }
+
+  .menu.open .menu-link {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  .menu-link[aria-current='page'] {
+    color: var(--amber);
+  }
+
+  .menu-link.ext {
+    color: var(--cream-dim);
+  }
+
+  @media (max-width: 48rem) {
+    .pill {
+      max-width: calc(100vw - 48px);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    /* Without JS, keep the inline links as the navigation fallback. */
+    :global(html.js) .links {
+      display: none;
+    }
+    :global(html.js) .burger {
+      display: block;
+    }
+    .menu {
+      display: flex;
+    }
+  }
 </style>
+
+<script>
+  const burger = document.querySelector('.burger');
+  const menu = document.getElementById('menu-overlay');
+  const header = burger?.closest('header');
+  if (
+    burger instanceof HTMLButtonElement &&
+    menu instanceof HTMLDialogElement &&
+    header instanceof HTMLElement
+  ) {
+    let background: HTMLElement[] = [];
+    const restoreBackground = () => {
+      for (const element of background) element.inert = false;
+      background = [];
+    };
+    const setOpen = (open: boolean) => {
+      menu.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      if (open && !menu.open) {
+        background = Array.from(document.body.children).filter(
+          (element): element is HTMLElement => element !== header && element instanceof HTMLElement,
+        );
+        for (const element of background) element.inert = true;
+        menu.show();
+        document.body.style.overflow = 'hidden';
+        const firstLink = menu.querySelector('a');
+        if (firstLink instanceof HTMLElement) {
+          setTimeout(() => {
+            if (menu.open) firstLink.focus();
+          }, 0);
+        }
+      }
+      if (!open) {
+        if (menu.open) menu.close();
+        restoreBackground();
+        document.body.style.overflow = '';
+        burger.focus();
+      }
+    };
+    const mobileViewport = window.matchMedia('(max-width: 48rem)');
+    mobileViewport.addEventListener('change', (event) => {
+      if (!event.matches && menu.open) menu.close();
+    });
+    menu.addEventListener('close', () => setOpen(false));
+    menu.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        menu.close();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const links = Array.from(menu.querySelectorAll('a'));
+      if (links.length === 0) return;
+      const first = links[0];
+      const last = links.at(-1);
+      if (!last) return;
+      if (event.shiftKey && (document.activeElement === first || document.activeElement === menu)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (document.activeElement === last || document.activeElement === menu)) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+    burger.addEventListener('click', () => setOpen(!menu.open));
+    menu.addEventListener('click', (event) => {
+      if (event.target instanceof Element && event.target.closest('a')) menu.close();
+    });
+  }
+</script>
