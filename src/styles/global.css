@@ -5,7 +5,7 @@
 :root {
   /* Approved dark mode backgrounds only. */
   --ink: #131209;
-  --ink-raised: #181818; /* legacy alias -> surface-1 */
+  --ink-raised: var(--surface-1); /* legacy alias -> surface-1 */
   --surface-1: #181818;
   --surface-2: #1f1f1f;
   --surface-3: #272727;
@@ -180,6 +180,7 @@ code {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     transition-delay: 0ms !important;

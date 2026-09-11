@@ -82,7 +82,7 @@ const taglineWords = TAGLINE.split(' ');
           <h3>Open source by default</h3>
           <p>
             The code lives in the open, under real licenses. Nehir ships as GPL 2.0 and Kahraman
-            as MIT, and every project names its license on the front page.
+            as MIT.
           </p>
         </div>
         <div class="rule">
@@ -194,8 +194,12 @@ const taglineWords = TAGLINE.split(' ');
 
   .tagline .word {
     display: inline-block;
-    color: rgba(252, 237, 210, 0.3);
+    color: var(--cream);
     transition: color var(--dur) var(--ease-fluid);
+  }
+
+  :global(html.js) .tagline:not(.is-visible) .word {
+    color: rgba(252, 237, 210, 0.3);
   }
 
   .tagline .word + .word {
@@ -209,6 +213,7 @@ const taglineWords = TAGLINE.split(' ');
   /* ---- residents ---- */
 
   .residents {
+    scroll-margin-top: 96px;
     padding: 32px 0;
     display: grid;
     gap: 24px;
@@ -286,7 +291,8 @@ const taglineWords = TAGLINE.split(' ');
   // delays on the shared fluid curve.
   const tagline = document.querySelector('[data-tagline]');
   if (tagline) {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced || !('IntersectionObserver' in window)) {
       tagline.classList.add('is-visible');
     } else {
       const io = new IntersectionObserver(
