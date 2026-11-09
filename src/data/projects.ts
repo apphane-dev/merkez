@@ -13,7 +13,7 @@ export interface Project {
   language: string;
   /** The project's own subdomain, when it has a home of its own. */
   home?: string;
-  /** Shown on the card when the project is not under normal development. */
+  /** Shown on the card when the project is not under normal development; `href` is the status update. */
   status?: { label: string; href: string };
   links: { label: string; href: string }[];
 }
@@ -70,7 +70,7 @@ export const projects: Project[] = [
     language: 'Swift',
     home: 'https://nehir.apphane.dev',
     status: {
-      label: 'Not actively developed · Read the status update',
+      label: 'Not actively developed',
       href: 'https://github.com/apphane-dev/nehir/discussions/214',
     },
     links: [

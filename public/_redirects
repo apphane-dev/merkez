@@ -1,0 +1,2 @@
+# No full-text dump for a landing site; agents start from the homepage Markdown.
+/llms-full.txt /index.md 302

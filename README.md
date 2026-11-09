@@ -2,9 +2,8 @@
 
 Landing page for [apphane](https://apphane.dev) — a house for small, sharp tools.
 
-Built with [Astro](https://astro.build), deployed to GitHub Pages via
-`.github/workflows/deploy.yml` on every push to `main`, served at the custom
-domain configured in `public/CNAME`.
+Built with [Astro](https://astro.build), deployed to Cloudflare Pages (project
+`merkez`) via `.github/workflows/deploy.yml` on every push to `main`.
 
 ## Development
 
@@ -55,3 +54,48 @@ invalid or listed twice, the skill's front-matter `name` differs from its
 entry, or its `description` is empty or over 1024 characters, which
 `npx skills` would skip. A push to the skill's branch shows up on the next deploy of this site,
 which runs on every push to `main` and daily.
+
+## Agent-readable output
+
+Every page also exists as Markdown at its path plus `.md` (`/writing/` →
+`/writing.md`, `/` → `/index.md`). `src/integrations/markdown-alternates.ts`
+writes these after the build by converting each page's `<main>`, skipping
+anything `aria-hidden="true"` or marked `data-md-skip`. Pass `markdown={false}`
+to `Base` to leave a page out.
+
+`functions/_middleware.ts` runs on Cloudflare Pages in front of every non-asset
+request (`public/_routes.json` lists the exclusions). A page URL returns the
+Markdown when the `Accept` header names `text/markdown` at least as high as
+`text/html`, and returns 406 when neither is acceptable. Both formats carry
+`Vary: Accept` and a `Link` header pointing at the other one. To try it locally,
+build, then run `npx wrangler pages dev`.
+
+`/llms.txt` is generated from `src/data/projects.ts` and the writing collection.
+`/llms-full.txt` redirects to `/index.md` (`public/_redirects`).
+
+`public/robots.txt` allows every crawler and sets `Content-Signal: search=yes,
+ai-input=yes, ai-train=yes`. Keep Cloudflare's managed robots.txt and its AI
+crawler blocking turned off for the zone. With them on, Cloudflare prepends its
+own rules and blocks GPTBot and ClaudeBot at the edge.
+
+### AI traffic log
+
+The middleware writes one Analytics Engine data point per request to the
+`apphane_ai_traffic` dataset (binding in `wrangler.toml`): `blob1` path, `blob2`
+served content type, `blob3` User-Agent, `blob4` Accept, `blob5` referrer host,
+`double1` status. Classify at query time by exclusion, since new agents show up
+under unfamiliar user agents. This query lists who fetched Markdown or
+`llms.txt` in the last 30 days; the token needs Account Analytics Read:
+
+```bash
+curl "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/analytics_engine/sql" \
+  -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+  --data "SELECT blob3 AS user_agent, SUM(_sample_interval) AS hits
+          FROM apphane_ai_traffic
+          WHERE timestamp > NOW() - INTERVAL '30' DAY
+            AND (blob2 = 'text/markdown' OR blob1 = '/llms.txt')
+          GROUP BY user_agent ORDER BY hits DESC"
+```
+
+Scanners borrow AI user agents, so check the paths too. A `.md` 404 is a page
+an agent expected to exist.

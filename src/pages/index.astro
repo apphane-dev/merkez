@@ -39,14 +39,14 @@ const taglineWords = TAGLINE.split(' ');
         “house of”, is where our apps, tools, and ideas live. Each project is named in Turkish,
         open source by default, and built to do one thing well.
       </p>
-      <div class="cta-row">
+      <div class="cta-row" data-md-skip>
         <a class="btn btn-solid" href="#residents">See the projects</a>
       </div>
       <p class="proof">
         Open source by default. Nehir ships under GPL 2.0, Kahraman under MIT, with every
         dependency credited file by file.
       </p>
-      <div class="strip-wrap">
+      <div class="strip-wrap" data-md-skip>
         <WindowStrip />
       </div>
     </section>
@@ -56,27 +56,26 @@ const taglineWords = TAGLINE.split(' ');
       <p class="tagline" data-tagline>
         {
           taglineWords.map((word, i) => (
-            <span class="word" style={`transition-delay: ${i * 80}ms`}>
-              {word}
-            </span>
+            <>
+              {i > 0 && ' '}
+              <span class="word" style={`transition-delay: ${i * 80}ms`}>
+                {word}
+              </span>
+            </>
           ))
         }
       </p>
     </section>
 
     <section class="residents" id="residents" aria-labelledby="residents-heading">
-      <h2 class="eyebrow" id="residents-heading">
-        In the house<span class="tr" lang="tr" aria-hidden="true">hane</span>
-      </h2>
+      <h2 class="eyebrow" id="residents-heading">In the house<span class="tr" lang="tr" aria-hidden="true">hane</span></h2>
       <div class="cards">
         {projects.map((project) => <ProjectCard project={project} />)}
       </div>
     </section>
 
     <section class="ethos" aria-labelledby="ethos-heading" data-reveal>
-      <h2 class="eyebrow" id="ethos-heading">
-        House rules<span class="tr" lang="tr" aria-hidden="true">kurallar</span>
-      </h2>
+      <h2 class="eyebrow" id="ethos-heading">House rules<span class="tr" lang="tr" aria-hidden="true">kurallar</span></h2>
       <div class="rules">
         <div class="rule">
           <h3>Open source by default</h3>
@@ -200,10 +199,6 @@ const taglineWords = TAGLINE.split(' ');
 
   :global(html.js) .tagline:not(.is-visible) .word {
     color: rgba(252, 237, 210, 0.3);
-  }
-
-  .tagline .word + .word {
-    margin-left: 0.24em;
   }
 
   .tagline.is-visible .word {
