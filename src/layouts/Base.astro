@@ -5,6 +5,7 @@ import '@fontsource/manrope/600.css';
 import '@fontsource/manrope/700.css';
 import '@fontsource/geist-mono/400.css';
 import '../styles/global.css';
+import { markdownPath } from '../lib/markdown-alternate';
 
 interface Props {
   title: string;
@@ -13,9 +14,18 @@ interface Props {
   ogType?: 'website' | 'article';
   publishedAt?: Date;
   updatedAt?: Date;
+  /** Advertise a Markdown alternate, built from this page's <main>. */
+  markdown?: boolean;
 }
 
-const { title, description, ogType = 'website', publishedAt, updatedAt } = Astro.props;
+const {
+  title,
+  description,
+  ogType = 'website',
+  publishedAt,
+  updatedAt,
+  markdown = true,
+} = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL('apphane-logo.png', Astro.site);
@@ -30,6 +40,9 @@ const ogImage = new URL('apphane-logo.png', Astro.site);
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonical} />
+    {markdown && (
+      <link rel="alternate" type="text/markdown" href={markdownPath(Astro.url.pathname)} />
+    )}
     <link
       rel="alternate"
       type="application/rss+xml"
