@@ -20,6 +20,14 @@ const { project } = Astro.props;
     </p>
   </header>
 
+  {
+    project.status && (
+      <a class="status" href={project.status.href}>
+        {project.status.label} ↗
+      </a>
+    )
+  }
+
   <p class="tagline">{project.tagline}</p>
   <p class="desc">{project.description}</p>
 
@@ -127,6 +135,18 @@ const { project } = Astro.props;
     line-height: 16px;
     color: var(--cream);
     border: 1px solid var(--cream-faint);
+    border-radius: 999px;
+    padding: 4px 12px;
+  }
+
+  .status {
+    display: inline-block;
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 12px; /* text-xs */
+    line-height: 16px;
+    color: var(--amber);
+    border: 1px solid rgba(253, 161, 21, 0.4);
     border-radius: 999px;
     padding: 4px 12px;
   }
