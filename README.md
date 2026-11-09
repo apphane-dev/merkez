@@ -51,6 +51,7 @@ points at the site's copy, the exact bytes the build hashed, and never at GitHub
 
 To publish another skill, add an entry with its `name`, `repo` and `branch`.
 Only single-file skills work. The build fails when a download fails, a name is
-invalid or listed twice, or the skill's front-matter `name` differs from its
-entry. A push to the skill's branch shows up on the next deploy of this site,
+invalid or listed twice, the skill's front-matter `name` differs from its
+entry, or its `description` is empty or over 1024 characters, which
+`npx skills` would skip. A push to the skill's branch shows up on the next deploy of this site,
 which runs on every push to `main` and daily.

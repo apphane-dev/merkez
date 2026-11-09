@@ -16,7 +16,8 @@ const skillName = z
 
 const frontMatterSchema = z.object({
   name: skillName,
-  description: z.string().trim().min(1),
+  /** `npx skills` drops index entries whose description is over 1024 chars. */
+  description: z.string().trim().min(1).max(1024),
 });
 
 interface IndexEntry {
