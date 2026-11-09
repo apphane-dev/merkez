@@ -39,10 +39,14 @@ async function route(request: Request, env: Env, next: () => Promise<Response>):
   const url = new URL(request.url);
   const { pathname } = url;
 
-  // An explicit .md URL is never negotiated.
+  // An explicit .md URL is never negotiated. Only a page's alternate links back
+  // to HTML; other Markdown files, such as /agent-skills/<name>/SKILL.md, have no page.
   if (pathname.endsWith('.md')) {
     const response = await next();
-    return response.ok ? annotate(response, alternate(htmlPath(pathname), 'text/html'), MARKDOWN) : response;
+    if (!response.ok) return response;
+    const page = new URL(htmlPath(pathname), url);
+    const html = await env.ASSETS.fetch(page, { method: 'HEAD' });
+    return annotate(response, html.ok ? alternate(page.pathname, 'text/html') : null, MARKDOWN);
   }
   // Pages live at trailing-slash URLs; the host redirects the bare form there first.
   if (!pathname.endsWith('/')) return next();
@@ -119,11 +123,11 @@ function alternate(pathname: string, type: string): string {
   return `<${pathname}>; rel="alternate"; type="${type}"`;
 }
 
-function annotate(response: Response, link: string, contentType?: string): Response {
+function annotate(response: Response, link: string | null, contentType?: string): Response {
   const out = new Response(response.body, response);
   out.headers.append('Vary', 'Accept');
   // Append: Pages adds its own Link headers for Early Hints.
-  out.headers.append('Link', link);
+  if (link) out.headers.append('Link', link);
   if (contentType) out.headers.set('Content-Type', contentType);
   return out;
 }
