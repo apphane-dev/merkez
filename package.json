@@ -19,7 +19,8 @@
     "@astrojs/sitemap": "^3.7.3",
     "@fontsource/geist-mono": "^5.3.0",
     "@fontsource/manrope": "^5.3.0",
-    "astro": "^7.2.4"
+    "astro": "^7.2.4",
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
