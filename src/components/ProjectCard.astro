@@ -10,11 +10,7 @@ const { project } = Astro.props;
 
 <article class="card" id={project.id} data-reveal>
   <header class="card-head">
-    <h3 class="card-name">
-      <span class="brace" aria-hidden="true">&#123;</span>
-      {project.name}
-      <span class="brace" aria-hidden="true">&#125;</span>
-    </h3>
+    <h3 class="card-name"><span class="brace" aria-hidden="true">&#123;</span>{project.name}<span class="brace" aria-hidden="true">&#125;</span></h3>
     <p class="gloss">
       <span lang="tr">{project.turkish.word}</span> — Turkish for <em>{project.turkish.meaning}</em>
     </p>

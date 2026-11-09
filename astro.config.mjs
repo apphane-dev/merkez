@@ -7,5 +7,7 @@ import agentSkills from './src/integrations/agent-skills.ts';
 export default defineConfig({
   site: 'https://apphane.dev',
   integrations: [sitemap(), agentSkills()],
+  // Lossless: keeps whitespace that renders, such as a space between text and a link.
+  compressHTML: true,
   server: { allowedHosts: true },
 });
