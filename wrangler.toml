@@ -1,0 +1,9 @@
+# Cloudflare Pages project; read by `wrangler pages deploy` and `wrangler pages dev`.
+name = "merkez"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-11-01"
+
+# Request log written by functions/_middleware.ts.
+[[analytics_engine_datasets]]
+binding = "AI_TRAFFIC"
+dataset = "apphane_ai_traffic"
